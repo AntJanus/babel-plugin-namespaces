@@ -1,7 +1,9 @@
+import path from 'path';
+
 export default namespacePlugin;
 
-const rootRegex = /^\/(.*)\//;
-const namespaceRegex = /^\\(.*)\//;
+const rootRegex = /^\/(.*?)\//;
+const namespaceRegex = /^\\(.*?)\//i;
 
 function namespacePlugin({types: t}) {
   return {
@@ -9,17 +11,25 @@ function namespacePlugin({types: t}) {
       ImportDeclaration(path, state) {
          var source = path.node.source;
          var rawVal = source.extra.raw.replace(/'/g, '');
+         var val = '';
 
          //match to root first
-         var isRoot = rawVal.match(rootRegex);
-         var
+         var isRoot = rootRegex.exec(rawVal);
+
+         if(isRoot) {
+           val = rawVal.replace(rootRegex, '/path/to/root/folder/');
+           source.value = val;
+           return;
+         }
 
          //match to namespace
-         var namespace = rawVal.match(namespaceRegex);
-         var matchNs = namespace[1];
+         var namespace = namespaceRegex.exec(rawVal);
 
-         if(matchNs) {
-           source.value = state.opts.config[matchNs] || path.node.source.value;
+         if(namespace) {
+           var matchNs = namespace[1];
+           val = rawVal.replace(namespaceRegex, '');
+
+           source.value = (state.opts.config[matchNs] || '') + val;
          }
       }
     }
