@@ -1,0 +1,42 @@
+{
+  "name": "babel-plugin-namespaces",
+  "version": "0.0.1",
+  "description": "Babel plugin for creating namespaces in an application",
+  "main": "./src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntJanus/babel-plugin-namespaces.git"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin"
+  ],
+  "author": "Antonin Januska (@antjanus)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AntJanus/babel-plugin-namespaces/issues"
+  },
+  "homepage": "https://github.com/AntJanus/babel-plugin-namespaces",
+  "devDependencies": {
+    "ava": "^0.12.0",
+    "babel": "^6.5.2",
+    "babel-core": "^6.5.2",
+    "babel-plugin-transform-runtime": "^6.5.2",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-register": "^6.5.2",
+    "babel-runtime": "^6.5.0"
+  },
+  "ava": {
+    "files": [
+      "./test/test.js"
+    ],
+    "failFast": true,
+    "verbose": true
+  }
+}
