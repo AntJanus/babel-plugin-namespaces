@@ -3,14 +3,14 @@ import path from 'path';
 export default namespacePlugin;
 
 const rootRegex = /^\/(.*?)\//;
-const namespaceRegex = /^\\(.*?)\//i;
+const namespaceRegex = /^\#(.*?)\//i;
 
 function namespacePlugin({types: t}) {
   return {
     visitor: {
       ImportDeclaration(path, state) {
          var source = path.node.source;
-         var rawVal = source.extra.raw.replace(/'/g, '');
+         var rawVal = source.value;
          var val = '';
 
          //match to root first
