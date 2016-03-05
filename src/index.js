@@ -12,18 +12,18 @@ function normalizePath(p) {
 }
 
 function handleRoot(source, rawVal, state) {
-  const startPath = process.env.PWD || process.cwd();
+  const startPath = process.cwd();
 
   let val = rawVal.replace(rootRegex, '/path/to/root/folder/');
 
   let current = path.dirname(state.file.opts.filename);
   let destination = path.join(startPath, val);
 
-  source.value = path.relative(current, destination);
+  source.value = normalizePath(path.relative(current, destination));
 }
 
 function handleNamespace(source, rawVal, state) {
-  const startPath = process.env.PWD || process.cwd();
+  const startPath = process.cwd();
 
   //match to namespace
   var namespace = namespaceRegex.exec(rawVal);
@@ -35,7 +35,7 @@ function handleNamespace(source, rawVal, state) {
     let current = path.dirname(state.file.opts.filename);
     let destination = path.join(startPath, (state.opts.config[matchNs] || ''), val);
 
-    source.value = path.relative(current, destination);
+    source.value = normalizePath(path.relative(current, destination));
   }
 }
 function namespacePlugin({types: t}) {

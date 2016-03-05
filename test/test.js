@@ -12,10 +12,10 @@ test('namespaces', t => {
   var testFile = './fixtures/namespaced.js';
 
   var expected = `
-    import action from './actions-folder/some-action/other';
+    import action from '../actions-folder/some-action/other';
   `;
 
-  var result = transformFileSync(testFile, {
+  var result = transformFileSync(test, {
     plugins: [
       [plugin, {
           config: {
@@ -33,12 +33,12 @@ test('root', t => {
   var testFile = './fixtures/rooted.js';
 
   var expected = `
-    import action from '/path/to/root/folder/src/actions-folder/some-action/other';
+    import action from '../actions-folder/some-action/other';
   `;
 
   var result = transformFileSync(testFile, {
     plugins: [
-      ['../src', {
+      [plugin, {
           config: {
             actions: './actions-folder/'
           }
