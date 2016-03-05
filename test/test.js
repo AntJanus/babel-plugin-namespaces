@@ -8,7 +8,7 @@ import 'babel-register';
 
 test('namespaces', t => {
   var testCode = `
-    import action from "#actions/some-action/other";
+    import action from "<actions>/some-action/other";
   `;
 
   var expected = `
@@ -31,7 +31,7 @@ test('namespaces', t => {
 
 test('root', t => {
   var testCode = `
-    import action from '/src/actions-folder/some-action/other';
+    import action from '#root/src/actions-folder/some-action/other';
   `;
 
   var expected = `
