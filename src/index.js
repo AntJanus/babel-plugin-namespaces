@@ -5,6 +5,12 @@ export default namespacePlugin;
 const rootRegex = /^#root\//i;
 const namespaceRegex = /^<(.*?)>\//i;
 
+function normalizePath(p) {
+    var normalized = p.split(path.sep);
+
+    return normalized.join('/');
+}
+
 function handleRoot(source, rawVal, state) {
   const startPath = process.env.PWD || process.cwd();
 

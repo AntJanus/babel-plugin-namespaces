@@ -2,22 +2,22 @@
 import test from 'ava';
 
 //babel
-import { transform } from 'babel-core';
+import { transformFileSync } from 'babel-core';
 
 import 'babel-register';
 
+import plugin from '../src/';
+
 test('namespaces', t => {
-  var testCode = `
-    import action from "<actions>/some-action/other";
-  `;
+  var testFile = './fixtures/namespaced.js';
 
   var expected = `
     import action from './actions-folder/some-action/other';
   `;
 
-  var result = transform(testCode, {
+  var result = transformFileSync(testFile, {
     plugins: [
-      ['../src', {
+      [plugin, {
           config: {
             actions: './actions-folder/'
           }
@@ -30,15 +30,13 @@ test('namespaces', t => {
 });
 
 test('root', t => {
-  var testCode = `
-    import action from '#root/src/actions-folder/some-action/other';
-  `;
+  var testFile = './fixtures/rooted.js';
 
   var expected = `
     import action from '/path/to/root/folder/src/actions-folder/some-action/other';
   `;
 
-  var result = transform(testCode, {
+  var result = transformFileSync(testFile, {
     plugins: [
       ['../src', {
           config: {
