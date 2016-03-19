@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-namespaces",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Babel plugin for creating namespaces in an application",
   "main": "./src/index.js",
   "directories": {
