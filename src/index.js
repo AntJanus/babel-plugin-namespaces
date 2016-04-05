@@ -14,10 +14,10 @@ function normalizePath(p) {
 function handleRoot(source, rawVal, state) {
   const startPath = process.cwd();
 
-  let val = rawVal.replace(rootRegex, '/path/to/root/folder/');
+  let val = rawVal.replace(rootRegex, '');
 
   let current = path.dirname(state.file.opts.filename);
-  let destination = path.join(startPath, val);
+  let destination = path.join(startPath, '.', val);
 
   source.value = normalizePath(path.relative(current, destination));
 }

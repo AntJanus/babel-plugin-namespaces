@@ -11,30 +11,7 @@ import plugin from '../src/';
 test('namespaces', t => {
   var testFile = './fixtures/namespaced.js';
 
-  var expected = `
-    import action from '../actions-folder/some-action/other';
-  `;
-
-  var result = transformFileSync(test, {
-    plugins: [
-      [plugin, {
-          config: {
-            actions: './actions-folder/'
-          }
-        }
-      ]
-    ]
-  });
-
-  t.is(expected.trim(), result.code.trim());
-});
-
-test('root', t => {
-  var testFile = './fixtures/rooted.js';
-
-  var expected = `
-    import action from '../actions-folder/some-action/other';
-  `;
+  var expected = '../actions-folder/some-action/other';
 
   var result = transformFileSync(testFile, {
     plugins: [
@@ -47,5 +24,28 @@ test('root', t => {
     ]
   });
 
-  t.is(expected.trim(), result.code.trim());
+  var match = /require\('(.*?)'\)/i.exec(result.code);
+
+  t.is(match[1].trim(), expected.trim());
+});
+
+test('root', t => {
+  var testFile = './fixtures/rooted.js';
+
+  var expected = '../actions-folder/some-action/other';
+
+  var result = transformFileSync(testFile, {
+    plugins: [
+      [plugin, {
+          config: {
+            actions: './actions-folder/'
+          }
+        }
+      ]
+    ]
+  });
+
+  var match = /require\('(.*?)'\)/i.exec(result.code);
+
+  t.is(match[1].trim(), expected.trim());
 });
