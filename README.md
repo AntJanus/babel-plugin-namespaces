@@ -48,17 +48,22 @@ The babel plugin will create config paths for namespaces. Example:
 
 ```
 {
-  root: "./src",
-  sharedLib: "./shared",
-  sharedFrontEnd: "./src/shared/"
+  "sharedLib": "./shared",
+  "shared/FrontEnd": "./src/shared/"
 }
 ```
 
 And so on. That way, you'd only have to write an import as such:
 
 ```
-import sharedLib from '\\sharedLib/someShared.js';
-import frontendView from '\\sharedFrontEnd/views/frontendView.js';
+import sharedLib from '<sharedLib>/someShared.js';
+import frontendView from '<shared/FrontEnd>/views/frontendView.js';
 ```
 
 and so on. Making imports much easier.
+
+The root feature allows one to reference modules from the root directory like so:
+
+```
+import sharedLib from '#root/src/app/shared/lib';
+```
