@@ -67,3 +67,10 @@ The root feature allows one to reference modules from the root directory like so
 ```
 import sharedLib from '#root/src/app/shared/lib';
 ```
+
+## Roadmap
+
+- [x] basic pathing and settings
+- [ ] root pathing
+- [ ] support for plain requires
+- [ ] transpilation to ES5
