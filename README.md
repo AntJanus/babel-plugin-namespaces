@@ -73,4 +73,4 @@ import sharedLib from '#root/src/app/shared/lib';
 - [x] basic pathing and settings
 - [ ] root pathing
 - [ ] support for plain requires
-- [ ] transpilation to ES5
+- [x] transpilation to ES5
