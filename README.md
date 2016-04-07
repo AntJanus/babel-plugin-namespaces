@@ -46,7 +46,7 @@ You'd end up rewriting all of the paths in the entire directory and spending maj
 
 The babel plugin will create config paths for namespaces. Example:
 
-```
+```json
 {
   "sharedLib": "./shared",
   "shared/FrontEnd": "./src/shared/",
@@ -57,7 +57,7 @@ The babel plugin will create config paths for namespaces. Example:
 
 And so on. That way, you'd only have to write an import as such:
 
-```
+```js
 import sharedLib from '<sharedLib>/someShared';
 import frontendView from '<shared/FrontEnd>/views/frontendView';
 import { fetchTasks } from '<actions>/fetchActions';
@@ -67,7 +67,7 @@ and so on. Making imports much easier.
 
 The root feature allows one to reference modules from the root directory like so:
 
-```
+```js
 import sharedLib from '#root/src/app/shared/lib';
 ```
 
