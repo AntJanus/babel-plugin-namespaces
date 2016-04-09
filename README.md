@@ -1,5 +1,7 @@
 # Babel Plugin for Javascript Namespaces
 
+[![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
+
 ## Motivation
 
 Trying to traverse the directory tree with modules is awkward at best. Imagine a simple front-end directory for Redux:
@@ -64,12 +66,6 @@ import { fetchTasks } from '<actions>/fetchActions';
 ```
 
 and so on. Making imports much easier.
-
-The root feature allows one to reference modules from the root directory like so:
-
-```js
-import sharedLib from '#root/src/app/shared/lib';
-```
 
 ## Roadmap
 

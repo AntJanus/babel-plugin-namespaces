@@ -8,8 +8,7 @@
   },
   "scripts": {
     "test": "ava",
-    "build": "babel src -d lib",
-    "prepublish": "npm run build"
+    "prepublish": "babel src -d lib"
   },
   "repository": {
     "type": "git",

@@ -2,7 +2,6 @@ import path from 'path';
 
 export default namespacePlugin;
 
-const rootRegex = /^#root\//i;
 const namespaceRegex = /^<(.*?)>\//i;
 
 function normalizePath(p) {
@@ -42,17 +41,9 @@ function namespacePlugin({types: t}) {
   return {
     visitor: {
       ImportDeclaration(path, state) {
-         var source = path.node.source;
-         var rawVal = source.extra.rawValue.replace('\'', '');
-         var val = '';
-
-         //match to root first
-         var isRoot = rootRegex.exec(rawVal);
-
-        if(isRoot) {
-          handleRoot(source, rawVal, state);
-          return;
-        }
+        var source = path.node.source;
+        var rawVal = source.extra.rawValue.replace('\'', '');
+        var val = '';
 
         handleNamespace(source, rawVal, state);
 
