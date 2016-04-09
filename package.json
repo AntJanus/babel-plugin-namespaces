@@ -26,7 +26,6 @@
   "homepage": "https://github.com/AntJanus/babel-plugin-namespaces",
   "devDependencies": {
     "ava": "^0.12.0",
-    "babel": "^6.5.2",
     "babel-core": "^6.5.2",
     "babel-plugin-transform-runtime": "^6.5.2",
     "babel-preset-es2015": "^6.5.0",
