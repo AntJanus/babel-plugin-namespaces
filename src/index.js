@@ -27,8 +27,15 @@ function handleNamespace(source, rawVal, state) {
   //match to namespace
   var namespace = namespaceRegex.exec(rawVal);
 
-  if(namespace) {
+  if(namespace && namespace[1]) {
     var matchNs = namespace[1];
+
+    if(!state.opts.config[matchNs]) {
+      console.log('Undeclared namespace detected: ', matchNs);
+
+      return;
+    }
+
     let val = rawVal.replace(namespaceRegex, '');
 
     let current = path.dirname(state.file.opts.filename);
