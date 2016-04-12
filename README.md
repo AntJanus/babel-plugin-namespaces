@@ -72,4 +72,6 @@ and so on. Making imports much easier.
 - [x] basic pathing and settings
 - [ ] root pathing
 - [ ] support for plain requires
+- [ ] better error handling
+- [ ] list of edge cases
 - [x] transpilation to ES5

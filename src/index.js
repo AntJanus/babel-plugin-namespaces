@@ -7,7 +7,8 @@ const namespaceRegex = /^<(.*?)>\//i;
 function normalizePath(p) {
     var normalized = p.split(path.sep);
 
-    return normalized.join('/');
+    //without ./, node assumes external package
+    return './' + normalized.join('/');
 }
 
 function handleRoot(source, rawVal, state) {
@@ -44,11 +45,18 @@ function handleNamespace(source, rawVal, state) {
     source.value = normalizePath(path.relative(current, destination));
   }
 }
+
 function namespacePlugin({types: t}) {
   return {
     visitor: {
       ImportDeclaration(path, state) {
         var source = path.node.source;
+
+	//usually happens when a conflict with a plugin arises
+	if(!source.extra || !source.extra.rawValue) {
+           return;
+	}
+
         var rawVal = source.extra.rawValue.replace('\'', '');
         var val = '';
 
