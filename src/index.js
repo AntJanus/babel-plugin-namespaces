@@ -4,22 +4,50 @@ export default namespacePlugin;
 
 const namespaceRegex = /^<(.*?)>\//i;
 
-function normalizePath(p) {
-    var normalized = p.split(path.sep);
+function namespacePlugin({types: t}) {
 
-    //without ./, node assumes external package
-    return './' + normalized.join('/');
+  const defaults = {
+    namespaces: {
+      root: '.'
+    }
+  };
+
+  return {
+    visitor: {
+      VariableDeclaration(path, state) {
+
+      },
+      ImportDeclaration(path, state) {
+	var localState = setupDefaults(state, defaults);
+
+        var source = path.node.source;
+
+	//usually happens when a conflict with a plugin arises
+	if(!source.extra || !source.extra.rawValue) {
+           return;
+	}
+
+        var rawVal = source.extra.rawValue.replace('\'', '');
+        var val = '';
+
+        handleNamespace(source, rawVal, localState);
+
+        return;
+      }
+    }
+  };
 }
 
-function handleRoot(source, rawVal, state) {
-  const startPath = process.cwd();
+function setupDefaults(state, defaults) {
+  var localState = Object.assign({}, state);
 
-  let val = rawVal.replace(rootRegex, '');
+  if(state.opts.namespaces.root) {
+    console.log('WARNING: Default <root> namespaces is being overwritten.');
+  }
 
-  let current = path.dirname(state.file.opts.filename);
-  let destination = path.join(startPath, '.', val);
+  localState.opts.namespaces = Object.assign({}, defaults.namespaces, state.opts.namespaces);
 
-  source.value = normalizePath(path.relative(current, destination));
+  return localState;
 }
 
 function handleNamespace(source, rawVal, state) {
@@ -31,8 +59,8 @@ function handleNamespace(source, rawVal, state) {
   if(namespace && namespace[1]) {
     var matchNs = namespace[1];
 
-    if(!state.opts.config[matchNs]) {
-      console.log('Undeclared namespace detected: ', matchNs);
+    if(!state.opts.namespaces[matchNs]) {
+      console.log('WARNING: Undeclared namespace detected: ', matchNs);
 
       return;
     }
@@ -40,30 +68,15 @@ function handleNamespace(source, rawVal, state) {
     let val = rawVal.replace(namespaceRegex, '');
 
     let current = path.dirname(state.file.opts.filename);
-    let destination = path.join(startPath, (state.opts.config[matchNs] || ''), val);
+    let destination = path.join(startPath, (state.opts.namespaces[matchNs] || ''), val);
 
     source.value = normalizePath(path.relative(current, destination));
   }
 }
 
-function namespacePlugin({types: t}) {
-  return {
-    visitor: {
-      ImportDeclaration(path, state) {
-        var source = path.node.source;
+function normalizePath(p) {
+    var normalized = p.split(path.sep);
 
-	//usually happens when a conflict with a plugin arises
-	if(!source.extra || !source.extra.rawValue) {
-           return;
-	}
-
-        var rawVal = source.extra.rawValue.replace('\'', '');
-        var val = '';
-
-        handleNamespace(source, rawVal, state);
-
-        return;
-      }
-    }
-  };
+    //without ./, node assumes external package
+    return './' + normalized.join('/');
 }

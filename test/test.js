@@ -16,7 +16,7 @@ test('namespace within same directory tree', t => {
   var result = transformFileSync(testFile, {
     plugins: [
       [plugin, {
-          config: {
+          namespaces: {
             actions: './fixtures/actions-folder/'
           }
         }
@@ -27,7 +27,6 @@ test('namespace within same directory tree', t => {
   var match = /require\('(.*?)'\)/i.exec(result.code);
 
   t.is(match[1].trim(), expected.trim());
-
 });
 
 test('namespace replacement outside of directory', t => {
@@ -38,7 +37,7 @@ test('namespace replacement outside of directory', t => {
   var result = transformFileSync(testFile, {
     plugins: [
       [plugin, {
-          config: {
+          namespaces: {
             actions: './actions-folder/'
           }
         }
@@ -59,7 +58,28 @@ test('leaving namespace alone', t => {
   var result = transformFileSync(testFile, {
     plugins: [
       [plugin, {
-          config: {
+          namespaces: {
+          }
+        }
+      ]
+    ]
+  });
+
+  var match = /require\('(.*?)'\)/i.exec(result.code);
+
+  t.is(match[1].trim(), expected.trim());
+});
+
+test('root default namespace', t => {
+  var testFile = './fixtures/rooted.js';
+
+  var expected = './../src/actions-folder/some-action/other';
+
+  var result = transformFileSync(testFile, {
+    plugins: [
+      [plugin, {
+          namespaces: {
+            actions: './fixtures/actions-folder/'
           }
         }
       ]

@@ -1,7 +1,7 @@
 ![logo](graphics/logo.png)
 # Babel Plugin for Javascript Namespaces
 
-[![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
+Build status: [![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
 
 ## Motivation
 
@@ -9,7 +9,7 @@ Trying to traverse the directory tree with modules is awkward at best. Imagine a
 
 ```
 server/
-shared/
+universal/
 src/
   actions/
     ui-actions/
@@ -23,59 +23,79 @@ src/
     blog/
 ```
 
-**note:** I'd love a better example!
-
 Trying to get an action from the shared view directory is a horrible experience. The import path would look something like `../../actions/ui-actions/someAction.js`. For larger projects, these directory hierarchies could easily expand. On top of that, what if you have shared libraries between back-end and front-end?
 
-You'd have to access that library via `../../../shared/someSharedLib.js`. This can quickly get confusing.
+From the same view, you'd have to access that universal library via `../../../universal/utils/util`. These long paths are often error-prone and are guess work at best on larger projects.
 
-There's also the issue of moving directories. I often find myself figuring out better ways to structure directories. For instance, the front-end library could be refactor to look like:
-
-```
-src/
-  shared/
-    actions/
-    views/
-    reducers/
-  home/
-    actions/
-    reducers/
-    views/
-```
-
-You'd end up rewriting all of the paths in the entire directory and spending major time doing this.
-
-## Solution
+## Directory namespacing
 
 The babel plugin will create config paths for namespaces. Example:
 
-```json
+```js
 {
-  config: {
-	  "sharedLib": "./shared",
-	  "shared/FrontEnd": "./src/shared/",
-	  "web": "./web",
-	  "actions": "./web/app/actions"
-	}
+  namespaces: {
+    actions: './src/actions',
+	reducers: './src/reducers',
+	views: './src/views',
+	universal: './universal'
+  }
 }
 ```
 
-And so on. That way, you'd only have to write an import as such:
+And so on. That way, you'd only have to write an import as such no matter where your code rests relative to the libraries you want to import:
 
 ```js
-import sharedLib from '<sharedLib>/someShared';
-import frontendView from '<shared/FrontEnd>/views/frontendView';
-import { fetchTasks } from '<actions>/fetchActions';
+import utils from '<universal>/utils';
+import { fetchTasks, addTask } from '<actions>/data-actions/tasks';
+import taskView from '<views>/shared/task';
 ```
 
-and so on. Making imports much easier.
+Imagine that the above declaration resided in `./src/views/home/home.js` view. The compiled result would look like this:
+
+```js
+import utils from '../../../universal/utils';
+import { fetchTasks, addTask } from '../../actions/data-actions/tasks';
+import taskView from '../shared/task';
+```
+
+## Root pathing
+
+What if you don't want to create a namespace for every major directory or module? You're welcome to use the default `<root>` namespace which allows you setup pathing from the root of your project. The previous imports could be easily rewritten as:
+
+```js
+import utils from '<root>/universal/utils';
+import { fetchTasks, addTask } from '<root>/src/actions/data-actions/tasks';
+import taskView from '<root>/src/views/shared/task';
+```
+
+## Individual module namespacing
+
+Beside being able to specify namespaces for frequently used directories and paths, you can also specify full paths to modules. Let's look at our `utils` example from above. We'll add a new namespace:
+
+```js
+{
+  namespaces: {
+    actions: './src/actions',
+	reducers: './src/reducers',
+	views: './src/views',
+	universal: './universal',
+	"universal/utils": './universal/utils'
+  }
+}
+```
+
+Our previous import would be simplified to use:
+
+```js
+import utils from '<universal/utils>';
+```
+
+Since the plugin works on a simple search/replace mechanism, the namespace for our universal utilities could easily just be `<utils>`.
 
 ## Roadmap
 
 - [x] basic pathing and settings
-- [ ] root pathing: `<root>`
-- [ ] config -> namespaces, and add `options` key
+- [x] root pathing: `<root>`
+- [x] config -> namespaces, and add `options` key
 - [ ] support for plain requires
-- [ ] better error handling
-- [ ] list of edge cases
 - [x] transpilation to ES5
