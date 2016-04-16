@@ -1,3 +1,4 @@
+![logo](graphics/logo.png)
 # Babel Plugin for Javascript Namespaces
 
 [![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
