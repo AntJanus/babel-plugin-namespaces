@@ -51,10 +51,12 @@ The babel plugin will create config paths for namespaces. Example:
 
 ```json
 {
-  "sharedLib": "./shared",
-  "shared/FrontEnd": "./src/shared/",
-  "web": "./web",
-  "actions": "./web/app/actions"
+  config: {
+	  "sharedLib": "./shared",
+	  "shared/FrontEnd": "./src/shared/",
+	  "web": "./web",
+	  "actions": "./web/app/actions"
+	}
 }
 ```
 
@@ -71,7 +73,8 @@ and so on. Making imports much easier.
 ## Roadmap
 
 - [x] basic pathing and settings
-- [ ] root pathing
+- [ ] root pathing: `<root>`
+- [ ] config -> namespaces, and add `options` key
 - [ ] support for plain requires
 - [ ] better error handling
 - [ ] list of edge cases
