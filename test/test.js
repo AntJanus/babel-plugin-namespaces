@@ -90,3 +90,24 @@ test('root default namespace', t => {
 
   t.is(match[1].trim(), expected.trim());
 });
+
+test('namespace within same directory tree using require', t => {
+  var testFile = './fixtures/required.js';
+
+  var expected = './actions-folder/some-action/other';
+
+  var result = transformFileSync(testFile, {
+    plugins: [
+      [plugin, {
+          namespaces: {
+            actions: './fixtures/actions-folder/'
+          }
+        }
+      ]
+    ]
+  });
+
+  var match = /require\('(.*?)'\)/i.exec(result.code);
+
+  t.is(match[1].trim(), expected.trim());
+});

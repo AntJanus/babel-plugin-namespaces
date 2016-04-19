@@ -14,18 +14,34 @@ function namespacePlugin({types: t}) {
 
   return {
     visitor: {
-      VariableDeclaration(path, state) {
+      CallExpression(path, state) {
+        if(path.node.callee.name === 'require') {
+          var localState = setupDefaults(state, defaults);
 
+          var source = path.node.arguments[0];
+
+          //usually happens when a conflict with a plugin arises
+          if(!source.extra || !source.extra.rawValue) {
+                  return;
+          }
+
+          var rawVal = source.extra.rawValue.replace('\'', '');
+          var val = '';
+
+          handleNamespace(source, rawVal, localState);
+
+          return;
+        }
       },
       ImportDeclaration(path, state) {
-	var localState = setupDefaults(state, defaults);
+        var localState = setupDefaults(state, defaults);
 
         var source = path.node.source;
 
-	//usually happens when a conflict with a plugin arises
-	if(!source.extra || !source.extra.rawValue) {
-           return;
-	}
+        //usually happens when a conflict with a plugin arises
+        if(!source.extra || !source.extra.rawValue) {
+                return;
+        }
 
         var rawVal = source.extra.rawValue.replace('\'', '');
         var val = '';
