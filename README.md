@@ -45,7 +45,7 @@ To setup namespaces, go into the root `.babelrc` which specifies plugins and pre
 
 Add the plugin to the `.babelrc`:
 
-```json
+```js
 {
   plugins: ["namespaces"]
 }
@@ -53,7 +53,7 @@ Add the plugin to the `.babelrc`:
 
 To add options, use Babel's plugin options by replacing the plugin string with an array of the plugin name and an object with the options:
 
-```json
+```js
 {
   plugins: [
     ["namespaces", {
