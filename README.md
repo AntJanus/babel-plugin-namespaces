@@ -92,6 +92,8 @@ import utils from '<universal/utils>';
 
 Since the plugin works on a simple search/replace mechanism, the namespace for our universal utilities could easily just be `<utils>`.
 
+## Better Organization
+
 ## Roadmap
 
 - [x] basic pathing and settings

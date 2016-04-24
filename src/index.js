@@ -22,7 +22,7 @@ function namespacePlugin({types: t}) {
 
           //usually happens when a conflict with a plugin arises
           if(!source.extra || !source.extra.rawValue) {
-                  return;
+            return;
           }
 
           var rawVal = source.extra.rawValue.replace('\'', '');
@@ -56,10 +56,6 @@ function namespacePlugin({types: t}) {
 
 function setupDefaults(state, defaults) {
   var localState = Object.assign({}, state);
-
-  if(state.opts.namespaces.root) {
-    console.log('WARNING: Default <root> namespaces is being overwritten.');
-  }
 
   localState.opts.namespaces = Object.assign({}, defaults.namespaces, state.opts.namespaces);
 
