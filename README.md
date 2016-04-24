@@ -3,6 +3,14 @@
 
 Build status: [![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
 
+## Installation
+
+This module is distributed using [npm](https://npmjs.com) which comes bundled with [node](https://nodejs.org):
+
+```console
+npm install --save-dev babel-plugin-namespaces
+```
+
 ## Motivation
 
 Trying to traverse the directory tree with modules is awkward at best. Imagine a simple front-end directory for Redux:
