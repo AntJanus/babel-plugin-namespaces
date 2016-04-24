@@ -40,7 +40,7 @@ function namespacePlugin({types: t}) {
 
         //usually happens when a conflict with a plugin arises
         if(!source.extra || !source.extra.rawValue) {
-                return;
+          return;
         }
 
         var rawVal = source.extra.rawValue.replace('\'', '');
@@ -87,8 +87,8 @@ function handleNamespace(source, rawVal, state) {
 }
 
 function normalizePath(p) {
-    var normalized = p.split(path.sep);
+  var normalized = p.split(path.sep);
 
-    //without ./, node assumes external package
-    return './' + normalized.join('/');
+  //without ./, node assumes external package
+  return './' + normalized.join('/');
 }

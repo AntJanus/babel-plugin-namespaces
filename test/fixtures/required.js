@@ -1,1 +1,1 @@
-import action from '<actions>/some-action/other';
+var action = require('<actions>/some-action/other');
