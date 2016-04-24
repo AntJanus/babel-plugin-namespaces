@@ -3,6 +3,10 @@
 
 Build status: [![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master.svg?style=svg)](https://circleci.com/gh/AntJanus/babel-plugin-namespaces/tree/master)
 
+## Requirements
+
+This is a Babel plugin so it requires Babel v6 to run.
+
 ## Installation
 
 This module is distributed using [npm](https://npmjs.com) which comes bundled with [node](https://nodejs.org):
@@ -35,18 +39,56 @@ Trying to get an action from the shared view directory is a horrible experience.
 
 From the same view, you'd have to access that universal library via `../../../universal/utils/util`. These long paths are often error-prone and are guess work at best on larger projects.
 
+## Settings
+
+To setup namespaces, go into the root `.babelrc` which specifies plugins and presets for Babel to consume.
+
+Add the plugin to the `.babelrc`:
+
+```json
+{
+  plugins: ["namespaces"]
+}
+```
+
+To add options, use Babel's plugin options by replacing the plugin string with an array of the plugin name and an object with the options:
+
+```json
+{
+  plugins: [
+    ["namespaces", {
+      namespaces: {
+        universal: './universal/lib'
+      }
+    }]
+  ]
+}
+```
+
+The keys of the `namespaces` object will be used to match against an import statement. To use a namespace in a file, simply place the name of the namespace (such as `universal`) in angle brackets like so `<universal>` and continue writing the path from there.
+
+```js
+import utils from `<universal>/utils`; //which would transpile to ./universal/lib/utils
+```
+
 ## Directory namespacing
 
 The babel plugin will create config paths for namespaces. Example:
 
 ```js
 {
-  namespaces: {
-    actions: './src/actions',
-	reducers: './src/reducers',
-	views: './src/views',
-	universal: './universal'
-  }
+  plugins: [
+    ["namespaces",
+      {
+        namespaces: {
+          actions: './src/actions',
+      	  reducers: './src/reducers',
+      	  views: './src/views',
+      	  universal: './universal'
+        }
+      }
+    ]
+  ]
 }
 ```
 
