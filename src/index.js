@@ -57,7 +57,7 @@ function namespacePlugin({types: t}) {
 function setupDefaults(state, defaults) {
   var localState = Object.assign({}, state);
 
-  localState.opts.namespaces = Object.assign({}, defaults.namespaces, state.opts.namespaces);
+  localState.opts.namespaces = Object.assign({}, defaults.namespaces || {}, state.opts.namespaces || {});
 
   return localState;
 }
