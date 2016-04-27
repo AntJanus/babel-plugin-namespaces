@@ -5,7 +5,7 @@ Build status: [![Circle CI](https://circleci.com/gh/AntJanus/babel-plugin-namesp
 
 ## Requirements
 
-This is a Babel plugin so it requires Babel v6 to run.
+This is a Babel plugin so it requires [Babel v6](http://babeljs.io/) to run.
 
 ## Installation
 
@@ -14,6 +14,16 @@ This module is distributed using [npm](https://npmjs.com) which comes bundled wi
 ```console
 npm install --save-dev babel-plugin-namespaces
 ```
+
+To include the plugin in your project, create or open your `.babelrc` file at the root of your project. Then, add `namespaces` to your plugin list:
+
+```js
+{
+  plugins: ["namespaces"]
+}
+```
+
+Settings and options are below.
 
 ## Motivation
 
