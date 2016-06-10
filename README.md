@@ -159,5 +159,6 @@ Since the plugin works on a simple search/replace mechanism, the namespace for o
 - [x] basic pathing and settings
 - [x] root pathing: `<root>`
 - [x] config -> namespaces, and add `options` key
-- [ ] support for plain requires
+- [x] support for plain requires
 - [x] transpilation to ES5
+- [ ] ESlint support
